@@ -11,7 +11,7 @@ async function handleUserSingup(req, res){
         password,
     });
 
-    return res.render("singup");
+    return res.render("login");
 }
 
 
