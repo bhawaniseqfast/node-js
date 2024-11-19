@@ -11,10 +11,12 @@ async function handleGenerateNewShortURL(req, res){
    await URL.create({
       shortId : ShortID,
       redirectURL : body.url,
-      visitHistory : []
+      visitHistory : [],
+      createdBy : req.user._id,
     })
 
-    return res.json({id : ShortID})
+    return res.render("form", { id : ShortID })
+    
     
 }
 
