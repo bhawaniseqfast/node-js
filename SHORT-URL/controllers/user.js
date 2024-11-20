@@ -16,19 +16,21 @@ async function handleUserSingup(req, res){
 
 
 async function handleUserLogin(req, res){
+    console.log("login credentials", req.body);
     const {email, password} = req.body;
-    const user =   await User.findOne({email, password});
+    const user = await User.findOne({email, password});
     console.log("user", user);
-    if(!user)
-         return res.render("login", {
+   
+     if(!user)
+        return res.render("login", {
            error : "Invalid Username or Password"
-        })
+        });
+       
 
-        const sessionId = uuidv4();
-        setUser(sessionId, user);
-        res.cookie("uid", sessionId);
-
-        return res.redirect("/");
+      const token = setUser(user);
+        //res.cookie("uid", token);
+       // return res.redirect("/");
+       return res.json({ token });
 
 
 }

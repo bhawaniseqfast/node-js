@@ -32,8 +32,9 @@ app.get("/test", async ( req, res) => {
 })
 
 app.use("/url", restrictToLoggedinUserOnly, urlRouter);
-app.use("/", checkAuth, staticRoute);
 app.use("/user", UserRoute);
+app.use("/", checkAuth, staticRoute);
+
 
 
 app.get("/url/:shortId", async (req, res) => {
