@@ -6,7 +6,7 @@ const path = require("path");
 const urlRouter = require("./routes/url");
 const staticRoute = require("./routes/staticRouter");
 const cookieParser = require("cookie-parser");
-const { restrictToLoggedinUserOnly, checkAuth } = require("./middlewares/auth");
+const { checkForAuthentication, restrictTo } = require("./middlewares/auth");
 
 const app = express();
 const PORT = 8001;
@@ -21,6 +21,7 @@ app.set("views", path.resolve("./views"));
 app.use(express.json());
 app.use(express.urlencoded ( {extended : false} ));
 app.use(cookieParser());
+app.use(checkForAuthentication);
 
 
 
@@ -31,9 +32,9 @@ app.get("/test", async ( req, res) => {
     });
 })
 
-app.use("/url", restrictToLoggedinUserOnly, urlRouter);
+app.use("/url", restrictTo(["NORMAL", "ADMIN"]), urlRouter);
 app.use("/user", UserRoute);
-app.use("/", checkAuth, staticRoute);
+app.use("/", staticRoute);
 
 
 
